@@ -70,18 +70,18 @@ class MyController extends PluginController {
             false,
             array('data-dialog' => 1));
             }
-        
+
         //Determine minimum permissions for mass file deletion (if enabled):
-        
-        //If the minimum perms for mass file deletion are set 
+
+        //If the minimum perms for mass file deletion are set
         //the current user must have them. If no minimum permissions are set
         //the user must at least be admin.
-        
+
         $this->mass_file_deletion_min_perms = 'admin';
-        
+
         if(Config::get()->ALLOW_MASS_FILE_DELETING) {
             //mass file deletion is turned on
-            
+
             if(Config::get()->MASS_FILE_DELETION_MIN_PERMS) {
                 $this->mass_file_deletion_min_perms = Config::get()->MASS_FILE_DELETION_MIN_PERMS;
             }
@@ -151,13 +151,19 @@ class MyController extends PluginController {
         if($this->users) {
             //calculate number of files for each user:
             $this->user_files_count = array();
+            $st = DBManager::get()->prepare("SELECT COUNT(*)
+                FROM dokumente INNER JOIN (
+                    SELECT seminar_id as id FROM seminare
+                    UNION
+                    SELECT institut_id as id FROM Institute
+                ) bla ON bla.id = dokumente.seminar_id
+                WHERE user_id = :user_id
+                AND dokumente.url = ''");
             foreach($this->users as $user) {
-                $this->user_files_count[$user->id] = StudipDocument::countBySql(
-                    "user_id = :user_id AND url = ''",
-                    array(
-                        'user_id' => $user->id
-                    )
-                );
+                $st->execute(array(
+                    'user_id' => $user->id
+                ));
+                $this->user_files_count[$user->id] = $st->fetchColumn();
             }
         }
     }
@@ -194,7 +200,7 @@ class MyController extends PluginController {
 
 
         //semester selector is always filled:
-        $this->available_semesters = Semester::getAll();
+        $this->available_semesters = array_reverse(Semester::getAll());
 
 
         $this->available_institutes = Institute::findBySql(
@@ -666,7 +672,7 @@ class MyController extends PluginController {
             if (Request::get("action") === "delete") {
                 if(Config::get()->ALLOW_MASS_FILE_DELETING and
                     $perm->have_Perm($this->mass_file_deletion_min_perms)) {
-                    //Mass file deletion is turned on and the user has 
+                    //Mass file deletion is turned on and the user has
                     //the required permissions.
                     $deleted_files_count = 0;
                     foreach (Request::getArray("d") as $file_id) {
@@ -691,7 +697,7 @@ class MyController extends PluginController {
                 } else {
                     //Either mass file deletion isn't turned on or
                     //the user hasn't got the required permissions.
-                    
+
                     if(Config::get()->ALLOW_MASS_FILE_DELETING) {
                         //The user doesn't have the required permissions.
                         PageLayout::postMessage(
@@ -712,7 +718,7 @@ class MyController extends PluginController {
                                 )
                             )
                         );
-                                
+
                     }
                 }
 
