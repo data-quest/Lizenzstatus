@@ -80,7 +80,7 @@
                         )) ?>">
                         <? $file_course = Course::find($file->seminar_id); ?>
 
-                            <?= htmlReady($file_course ? $file_course->name : $file->institute->name) ?>
+                            <?= htmlReady($file_course ? $file_course->name : Institute::find($file->seminar_id)->name) ?>
                         </a>
                     </td>
                     <? if ($file_course) : ?>
@@ -215,9 +215,9 @@ if(version_compare($GLOBALS['SOFTWARE_VERSION'], '3.1', '>=')) {
             : $plugin->getPluginURL()."/assets/license.svg",
         array('onclick' => "jQuery('#action').val('selectlicense'); jQuery('#action_form').attr('data-dialog', '1').submit(); return false;")
     );
-    
-    
-    if (Config::get()->ALLOW_MASS_FILE_DELETING and 
+
+
+    if (Config::get()->ALLOW_MASS_FILE_DELETING and
         $perm->have_perm($mass_file_deletion_min_perms)) {
         $actions->addLink(
             dgettext('lizenzstatus', "Ausgewählte Dateien löschen."),
