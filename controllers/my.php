@@ -41,7 +41,7 @@ class MyController extends PluginController {
             5 => $GLOBALS['ABSOLUTE_URI_STUDIP'] . 'plugins_packages/data-quest/Lizenzstatus/assets/own-license.svg',
             6 => $GLOBALS['ABSOLUTE_URI_STUDIP'] . 'plugins_packages/data-quest/Lizenzstatus/assets/license.svg',
             7 => $GLOBALS['ABSOLUTE_URI_STUDIP'] . 'plugins_packages/data-quest/Lizenzstatus/assets/52a-stopp2.svg',
-            8 => $GLOBALS['ABSOLUTE_URI_STUDIP'] . 'plugins_packages/data-quest/Lizenzstatus/assets/52a.svg'
+            8 => $GLOBALS['ABSOLUTE_URI_STUDIP'] . 'plugins_packages/data-quest/Lizenzstatus/assets/60a.svg'
         );*/
         if ($GLOBALS['LICENSE_ICONS']) {
             $this->icons = $GLOBALS['LICENSE_ICONS'];
@@ -54,7 +54,7 @@ class MyController extends PluginController {
                 3 => $this->plugin->getPluginURL() . '/assets/own-license.svg',
                 4 => $this->plugin->getPluginURL() . '/assets/cc.svg',
                 5 => $this->plugin->getPluginURL() . '/assets/license.svg',
-                6 => $this->plugin->getPluginURL() . '/assets/52a.svg',
+                6 => $this->plugin->getPluginURL() . '/assets/60a.svg',
                 7 => $this->plugin->getPluginURL() . '/assets/52a-stopp2.svg'
             );
         }
