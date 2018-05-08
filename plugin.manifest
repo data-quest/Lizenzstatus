@@ -1,5 +1,6 @@
 pluginname=Lizenzstatus
 pluginclassname=Lizenzstatus
 origin=data-quest
-version=1.4.1
+version=1.4.2
 studipMinVersion=2.5
+studipMaxVersion=3.5.99
